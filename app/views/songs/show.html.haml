@@ -51,16 +51,19 @@
               = f.hidden_field :spotify_track_id, value: spotify_song.id
               = f.submit 'Add to playlist', class: 'btn btn-success btn-xs'
 
-  %div.col-sm-3
-    .header Suggested Youtube tutorials
+  %div.col-sm-6
+    .header We did a youtube search for you
     - @suggested_material.each do |result|
       %div.row
         %div.col-sm-3
-          %iframe{:src => "http://www.youtube.com/embed/#{result.id}",
-            :width => "80", :height => "80", :frameborder => "0", :allowtransparency => "true"}
+          %iframe{:src => "http://www.youtube.com/embed/#{result[:id]}", :class => 'embed-responsive-item',
+             :frameborder => "0", :allowtransparency => 'true', height:'100px', width: '160px'}
         %div.col-sm-9
           %p.small
-            = "#{result.title}"
+            = "#{result[:title]}"
+            %br= result[:published_at]
             =form_for [@playlist, @song] do |f|
-              = f.hidden_field :youtube_id, value: result.id
+              = f.hidden_field :youtube_id, value: result[:id]
               = f.submit 'Add material', class: 'btn btn-success btn-xs'
+
+  %br

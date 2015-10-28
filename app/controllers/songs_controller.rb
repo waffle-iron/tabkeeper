@@ -20,7 +20,8 @@ class SongsController < ApplicationController
     @related_songs = @related_artists.shuffle[0..4].map do |artist|
       artist.top_tracks('IE').shuffle.first
     end.flatten
-    @suggested_material = @song.youtube_material
+    @suggested_material =
+        YoutubeService.new({song: @song.name, artist: @song.artist.name}).videos
   end
 
   # GET /songs/new
