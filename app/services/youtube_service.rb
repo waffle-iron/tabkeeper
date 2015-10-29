@@ -22,7 +22,8 @@ class YoutubeService
       videos << {
           title: search_result.snippet.title,
           id: search_result.id.videoId,
-          published_at: search_result.snippet.publishedAt
+          published_at: search_result.snippet.publishedAt,
+          url: "http://www.youtube.com/embed/#{search_result.id.videoId}"
       }
     end
     videos
