@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Playme</title>
+  <title>myguitarbuddy</title>
   <%= stylesheet_link_tag 'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
@@ -10,13 +10,23 @@
 
 <nav class="navbar navbar-inverse navbar-static-top">
 
-  <div class="navbar-brand">GuitarBuddy</div>
-  <%= link_to 'My Playlists', playlists_path, class: 'navbar-brand' %>
+  <div class = "navbar-header">
+    <%= link_to 'myguitarbuddy', playlists_path, class: 'navbar-brand' %>
+  </div>
+
+  <form class="navbar-form navbar-left" role="search">
+    <div class="input-group input-group-sm text-success">
+      <input type="text" class="form-control" placeholder="Search songs" name="srch-term" id="srch-term">
+      <div class="input-group-btn">
+        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+      </div>
+    </div>
+  </form>
 
   <%= yield :navbar %>
 
 
-  <p class="navbar-text pull-right">
+  <p class="navbar-text navbar-right">
     <% if user_signed_in? %>
         Logged in as <strong><%= current_user.email %></strong>.
         <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |

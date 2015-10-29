@@ -15,10 +15,22 @@ class Material < ActiveRecord::Base
   belongs_to :song
   belongs_to :user
 
+  KIND_VIDEO = 'video'
+  KIND_CHORD = 'chord'
+
   before_save :check_for_youtube
 
   def check_for_youtube
-    self.url = youtube_embedded_url(url) if url.include? 'youtube'
+    case url
+      when (url.include? 'youtube')
+        self.url = youtube_embedded_url(url) if url.include? 'youtube'
+        self.kind = KIND_VIDEO
+      when (url.include? 'songsterr')
+        self.kind = KIND_CHORD
+      when (url.include? 'ultimate-guitar')
+        self.kind = KIND_CHORD
+    end
+
   end
 
   def youtube_embedded_url(youtube_url)

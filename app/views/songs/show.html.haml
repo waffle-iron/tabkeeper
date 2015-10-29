@@ -1,7 +1,7 @@
 %div#show-song
 
   %div.col-sm-9
-    .header= "#{@song.artist.name} - #{@song.name}"
+    .header= "Learn how to play #{@song.artist.name} - #{@song.name}"
     .play_button
       %iframe{:src => "https://embed.spotify.com/?uri=#{@song.spotify_url}", :width => "300", :height => "100", :frameborder => "0", :allowtransparency => "true"}
 
