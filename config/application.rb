@@ -24,5 +24,4 @@ module Playme
     config.active_record.raise_in_transactional_callbacks = true
   end
 end
-
-RSpotify::authenticate('8f6facc3c8724b42b361675473c555b7', 'f127b9fda8fc4927bcf14272e2746677')
+RSpotify::authenticate('589db776e9944bd1b2e83d0c1f19f5f1', 'a9c07216572a44938a73667039467e50')

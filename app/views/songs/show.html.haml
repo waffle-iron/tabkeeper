@@ -52,19 +52,17 @@
               = f.submit 'Add to playlist', class: 'btn btn-success btn-xs'
 
   %div.col-sm-6
-    .header We did a youtube search for you
-    - @suggested_material.each do |result|
+    .header Available Materials
+    - @materials.each do |material|
       %div.row
         %div.col-sm-3
-          %iframe{:src => result[:url], :class => 'embed-responsive-item',
+          %iframe{:src => material.url, :class => 'embed-responsive-item',
              :frameborder => "0", :allowtransparency => 'true', height:'100px', width: '160px'}
         %div.col-sm-9
           %p.small
-            = "#{result[:title]}"
-            %br= result[:published_at]
-            =form_for [@playlist, @song, Material.new] do |f|
-              = f.hidden_field :url, value: result[:url]
-              = f.hidden_field :title, value: result[:title]
-              = f.submit 'Add material', class: 'btn btn-success btn-xs'
+            = "#{material.title}"
+            =form_for [@playlist, @song, material] do |f|
+              = f.hidden_field :keep, value: true
+              = f.submit 'Keep', class: 'btn btn-success btn-xs'
 
   %br

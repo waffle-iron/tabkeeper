@@ -18,19 +18,19 @@ class Material < ActiveRecord::Base
   KIND_VIDEO = 'video'
   KIND_CHORD = 'chord'
 
-  before_save :check_for_youtube
+  before_save :check_for_youtube, :check_for_songsterr
 
   def check_for_youtube
-    case url
-      when (url.include? 'youtube')
-        self.url = youtube_embedded_url(url) if url.include? 'youtube'
-        self.kind = KIND_VIDEO
-      when (url.include? 'songsterr')
-        self.kind = KIND_CHORD
-      when (url.include? 'ultimate-guitar')
-        self.kind = KIND_CHORD
+    if url.include? 'youtube'
+      self.url = youtube_embedded_url(url) if url.include? 'youtube'
+      self.kind = KIND_VIDEO
     end
+  end
 
+  def check_for_songsterr
+    if url.include? 'songsterr'
+      self.kind = KIND_CHORD
+    end
   end
 
   def youtube_embedded_url(youtube_url)
@@ -44,4 +44,5 @@ class Material < ActiveRecord::Base
 
     "http://www.youtube.com/embed/#{ youtube_id }"
   end
+
 end
