@@ -10,8 +10,8 @@ class SongsController < ApplicationController
   # GET /songs/1
   # GET /songs/1.json
   def show
-    @materials = @song.materials.where('user_id != ?', current_user.id)
-    @my_materials = current_user.materials.where('song_id = ?', @song)
+    @materials = @song.materials.where('user_id != ? OR user_id IS ?', current_user.id, nil)
+    @my_materials = current_user.materials.where('song_id = ?', @song.id)
 
     # Get related artitsts
     @spotify_track = RSpotify::Track.find(@song.spotify_track_id)

@@ -21,19 +21,6 @@
             %td= link_to 'Edit', edit_playlist_song_material_path(@playlist, @song, material)
             %td= link_to 'Destroy', playlist_song_material_path(@playlist, @song, material), :method => :delete, :data => { :confirm => 'Are you sure?' }
 
-    %h5 All Material
-    %table.table.table-white
-      %thead
-        %tr
-          %th Title
-          %th Link
-
-      %tbody
-        - @materials.each do |material|
-          %tr
-            %td= material.title
-            %td= link_to material.url, playlist_song_material_path(@playlist, @song, material), target: '_blank'
-
     =link_to 'Add New Material', new_playlist_song_material_path(@playlist, @song)
 
   %div.col-sm-3
@@ -64,5 +51,4 @@
             =form_for [@playlist, @song, material] do |f|
               = f.hidden_field :keep, value: true
               = f.submit 'Keep', class: 'btn btn-success btn-xs'
-
   %br

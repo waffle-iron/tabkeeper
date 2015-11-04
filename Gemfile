@@ -43,13 +43,12 @@ gem 'slim'
 # for scraping
 gem 'mechanize'
 gem 'songsterr', '~> 0.1.1'
-gem 'rspotify', '~> 1.15.3'
+gem 'rspotify'
 
 # twitter bootstrap
 gem 'bootstrap-sass', '~> 3.3.5'
 
-gem 'yt', '~> 0.25'
-# gem 'google-api-client', '>0.7'
+gem 'google-api-client', '>0.7'
 
 
 # Use ActiveModel has_secure_password

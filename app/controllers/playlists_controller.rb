@@ -30,7 +30,7 @@ class PlaylistsController < ApplicationController
 
         if song.new_record?
           song.save!
-          SongsWorker.perform_async(song.id, current_user.id)
+          SongsWorker.perform_async(song.id)
         end
 
         PlaylistsSongs.find_or_create_by playlist: playlist, song: song
