@@ -2,8 +2,16 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
+  resources :artists
+
+  resources :songs do
+
+    resources :materials
+  end
+
   namespace :api do
-    resources :songs
+    resources :songs do
+    end
   end
 
   resources :playlists do

@@ -4,4 +4,7 @@ class HomeController < ApplicationController
       redirect_to playlists_url and return
     end
   end
+  def get
+
+  end
 end

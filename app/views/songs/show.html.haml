@@ -17,11 +17,11 @@
         - @my_materials.each do |material|
           %tr
             %td= material.title
-            %td= link_to material.url, playlist_song_material_path(@playlist, @song, material), target: '_blank'
-            %td= link_to 'Edit', edit_playlist_song_material_path(@playlist, @song, material)
-            %td= link_to 'Destroy', playlist_song_material_path(@playlist, @song, material), :method => :delete, :data => { :confirm => 'Are you sure?' }
+            %td= link_to material.url, song_material_path(@song, material), target: '_blank'
+            %td= link_to 'Edit', edit_song_material_path(@song, material)
+            %td= link_to 'Destroy', song_material_path(@song, material), :method => :delete, :data => { :confirm => 'Are you sure?' }
 
-    =link_to 'Add New Material', new_playlist_song_material_path(@playlist, @song)
+    =link_to 'Add New Material', new_song_material_path(@song)
 
   %div.col-sm-3
     .header Related Songs
@@ -34,9 +34,9 @@
           %p.small
             = "#{spotify_song.name}"
             %br= spotify_song.artists.first.name
-            =form_for [@playlist, Song.new] do |f|
-              = f.hidden_field :spotify_track_id, value: spotify_song.id
-              = f.submit 'Add to playlist', class: 'btn btn-success btn-xs'
+            -#=form_for [@playlist, Song.new] do |f|
+            -#  = f.hidden_field :spotify_track_id, value: spotify_song.id
+            -#  = f.submit 'Add to playlist', class: 'btn btn-success btn-xs'
 
   %div.col-sm-6
     .header Available Materials
@@ -48,7 +48,7 @@
         %div.col-sm-9
           %p.small
             = "#{material.title}"
-            =form_for [@playlist, @song, material] do |f|
-              = f.hidden_field :keep, value: true
-              = f.submit 'Keep', class: 'btn btn-success btn-xs'
+            -#=form_for [@playlist, @song, material] do |f|
+            -#  = f.hidden_field :keep, value: true
+            -#  = f.submit 'Keep', class: 'btn btn-success btn-xs'
   %br

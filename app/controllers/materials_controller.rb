@@ -30,7 +30,7 @@ class MaterialsController < ApplicationController
 
     respond_to do |format|
       if @material.save
-        format.html { redirect_to playlist_song_path(@playlist, @song), notice: 'Material was successfully created.' }
+        format.html { redirect_to song_path(@song), notice: 'Material was successfully created.' }
         format.json { render :show, status: :created, location: @material.song }
       else
         format.html { render :new }
@@ -44,7 +44,7 @@ class MaterialsController < ApplicationController
   def update
     respond_to do |format|
       if @material.update(material_params)
-        format.html { redirect_to playlist_song_path(@playlist, @song), notice: 'Material was successfully updated.' }
+        format.html { redirect_to song_path(@song), notice: 'Material was successfully updated.' }
         format.json { render :show, status: :ok, location: @material }
       else
         format.html { render :edit }
@@ -66,7 +66,6 @@ class MaterialsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_material
-      @playlist = Playlist.find(params[:playlist_id])
       @material = Material.find(params[:id]) if params[:id]
       @song = Song.find(params[:song_id])
     end

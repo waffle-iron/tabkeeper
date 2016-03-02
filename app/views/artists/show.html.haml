@@ -1,0 +1,23 @@
+%p#notice= notice
+
+%h1.pull-left= @artist.name
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Song
+      %th Number of materials
+
+  %tbody
+    - @artist.songs.each do |song|
+      %tr
+        %td= link_to "#{song.name}", song_path(song, protocol: 'http')
+        %td= song.materials.count
+      %br
+
+= link_to 'New Song', new_song_path(@artist)
+
+
+= link_to 'Edit', edit_artist_path(@artist)
+\|
+= link_to 'Back', artists_path
