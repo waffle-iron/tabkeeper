@@ -1,38 +1,44 @@
 %div#show-song
 
-  %div.col-sm-3
-    .header= "Learn how to play #{@song.artist.name} - #{@song.name}"
-    .play_button
-      %iframe{:src => "https://embed.spotify.com/?uri=#{@song.spotify_url}", :width => "300", :height => "100", :frameborder => "0", :allowtransparency => "true"}
+  %div.container-fluid
 
-  %div.col-sm-3
-    .header Available Materials
-    - @materials.each do |material|
-      %div.row
-        %div.col-sm-3
-          %iframe{:src => material.url, :class => 'embed-responsive-item',
-             :frameborder => "0", :allowtransparency => 'true', height:'100px', width: '160px'}
-        %div.col-sm-9
-          %p.small
-            = "#{material.title}"
-  %div.col-sm-3
-    %a.btn.btn-success=link_to 'Add New Material', new_song_material_path(@song)
+    %div.row
 
-  -#=form_for [@playlist, @song, material] do |f|
-  -#  = f.hidden_field :keep, value: true
-  -#  = f.submit 'Keep', class: 'btn btn-success btn-xs'
+      %div.col-md-8
+        .header= "Learn how to play #{@song.artist.name} - #{@song.name}"
+        .play_button
+          %iframe{:src => "https://embed.spotify.com/?uri=#{@song.spotify_url}", :width => "300", :height => "100", :frameborder => "0", :allowtransparency => "true"}
 
-  %div.col-sm-3
-    .header Related Songs
-    - @related_songs.each do |spotify_song|
-      %div.row
-        %div.col-sm-3
-          %iframe{:src => "https://embed.spotify.com/?uri=#{spotify_song.uri}",
-            :width => "80", :height => "80", :frameborder => "0", :allowtransparency => "true"}
-        %div.col-sm-9
-          %p.small
-            = "#{spotify_song.name}"
-            %br= spotify_song.artists.first.name
-            -#=form_for [@playlist, Song.new] do |f|
-            -#  = f.hidden_field :spotify_track_id, value: spotify_song.id
-            -#  = f.submit 'Add to playlist', class: 'btn btn-success btn-xs'
+    %div.row
+      %div.col-md-4
+        .header Available Materials
+        - @materials.each do |material|
+          %div.row
+            %div.col-sm-3
+              %iframe{:src => material.url, :class => 'embed-responsive-item',
+                 :frameborder => "0", :allowtransparency => 'true', height:'100px', width: '160px'}
+            %div.col-sm-9
+              %p.small
+                = "#{material.title}"
+        %div.row
+          %div.col-md-3
+            %a= link_to "Add Material", new_song_material_path(@song), class: "btn btn-success btn-xl"
+
+      -#=form_for [@playlist, @song, material] do |f|
+      -#  = f.hidden_field :keep, value: true
+      -#  = f.submit 'Keep', class: 'btn btn-success btn-xs'
+
+      %div.col-sm-3
+        .header Related Songs
+        - @related_songs.each do |spotify_song|
+          %div.row
+            %div.col-sm-3
+              %iframe{:src => "https://embed.spotify.com/?uri=#{spotify_song.uri}",
+                :width => "80", :height => "80", :frameborder => "0", :allowtransparency => "true"}
+            %div.col-sm-9
+              %p.small
+                = "#{spotify_song.name}"
+                %br= spotify_song.artists.first.name
+                -#=form_for [@playlist, Song.new] do |f|
+                -#  = f.hidden_field :spotify_track_id, value: spotify_song.id
+                -#  = f.submit 'Add to playlist', class: 'btn btn-success btn-xs'
