@@ -25,4 +25,19 @@ class Song < ActiveRecord::Base
   validates :artist, presence: true
   validates :spotify_track_id, uniqueness: true
 
+  #fetch song from spotify
+  def spotify_track
+    Rails.cache.fetch("{#cache_key}/spotify_track", expires_in: 12.hours) do
+      RSpotify::Track.find(self.spotify_track_id)
+    end
+  end
+
+  #finds related songs by artists, very random, very inaccurate
+  def related_songs
+    related_artists = self.spotify_track.artists.first.related_artists
+
+    related_artists.shuffle[0..4].map do |artist|
+      artist.top_tracks('IE').shuffle.first
+    end.flatten
+  end
 end

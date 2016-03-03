@@ -10,18 +10,11 @@ class SongsController < ApplicationController
   # GET /songs/1
   # GET /songs/1.json
   def show
-    @materials = @song.materials.where('user_id != ? OR user_id IS ?', current_user.id, nil)
-    @my_materials = current_user.materials.where('song_id = ?', @song.id)
+    @materials = @song.materials
 
-    # Get related artitsts
-    @spotify_track = RSpotify::Track.find(@song.spotify_track_id)
-    @related_artists = @spotify_track.artists.first.related_artists
-
-    @related_songs = @related_artists.shuffle[0..4].map do |artist|
-      artist.top_tracks('IE').shuffle.first
-    end.flatten
-
+    @related_songs = @song.related_songs
   end
+
 
   # GET /songs/new
   def new
@@ -36,11 +29,11 @@ class SongsController < ApplicationController
   # POST /songs.json
   def create
     if song_params[:spotify_track_id]
-      spotify_track = RSpotify::Track.find(song_params[:spotify_track_id])
       @song = Song.find_or_create_by spotify_track_id: song_params[:spotify_track_id],
                                      artist: Artist.find_or_create_by(name: spotify_track.artists.first.name),
                                      name: spotify_track.name, spotify_url: spotify_track.uri
     end
+
     @song = Song.new(song_params) if @song.nil?
 
     PlaylistsSongs.find_or_create_by song: @song, playlist: @playlist
