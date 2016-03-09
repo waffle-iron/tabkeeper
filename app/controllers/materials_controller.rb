@@ -58,7 +58,7 @@ class MaterialsController < ApplicationController
   def destroy
     @material.destroy
     respond_to do |format|
-      format.html { redirect_to playlist_song_path(@playlist, @song), notice: 'Material was successfully destroyed.' }
+      format.html { redirect_to song_path(@song), notice: 'Material was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

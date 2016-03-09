@@ -1,4 +1,4 @@
-%h1.pull-left= @playlist.name
+%h1.pull-left= @title
 
 %table.table.table-striped
   %thead
@@ -14,7 +14,7 @@
         %td= link_to "#{song.artist.name}", artist_path(song.artist, protocol: 'http')
         %td= song.materials.count
         %td= link_to 'Edit', edit_song_path(song)
-        -#%td= link_to 'Destroy', song, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= link_to 'Destroy', song, :method => :delete, :data => { :confirm => 'Are you sure?' }
 %br
 
-= link_to 'Add Song', new_playlist_song_path(@playlist)
+= link_to 'Add Song', new_song_path(@playlist), class: 'btn btn-success btn-lg'

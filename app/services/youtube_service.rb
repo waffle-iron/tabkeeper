@@ -37,7 +37,7 @@ class YoutubeService
     {
         :part => 'snippet',
         :q => "#{song} #{artist} Guitar Tutorial",
-        :maxResults => 5,
+        :maxResults => 3,
         :type => 'video',
         :order => 'relevance'
     }

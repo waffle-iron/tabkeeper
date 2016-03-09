@@ -4,7 +4,16 @@ class SongsController < ApplicationController
   # GET /songs
   # GET /songs.json
   def index
-    @songs = @playlist.songs.order(:name)
+    unless @playlist.nil?
+      @songs = @playlist.songs.order(:name) unless @playlist.nil?
+      @title = @playlist.name unless @playlist.nil?
+    end
+
+    if @songs.nil?
+      @songs = Song.all
+      @title = "All available songs"
+    end
+
   end
 
   # GET /songs/1
@@ -19,6 +28,7 @@ class SongsController < ApplicationController
   # GET /songs/new
   def new
     @song = Song.new
+
   end
 
   # GET /songs/1/edit
@@ -36,7 +46,10 @@ class SongsController < ApplicationController
 
     @song = Song.new(song_params) if @song.nil?
 
-    PlaylistsSongs.find_or_create_by song: @song, playlist: @playlist
+    artist = Artist.find_by_name song_params[:artist_name]
+    @song.artist = artist
+
+    # PlaylistsSongs.find_or_create_by song: @song, playlist: @playlist
 
     respond_to do |format|
       if @song.save
