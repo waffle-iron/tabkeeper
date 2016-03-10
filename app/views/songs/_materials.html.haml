@@ -15,9 +15,16 @@
 .h3 Available Chords & Tabs
 %div.row
   - @song.materials.chord.each do |material|
-    %div.col-sm-12.col-md-8
-      .h4= material.title
-      %a= link_to "#{material.url}", song_material_path(@song, material), :target => '_blank'
+    %div.col-sm-6.col-md-8
+      %div.pull-right
+        =link_to song_material_path(@song, material), method: 'delete',  alt:'Delete',  title: 'Remove this material', data: { confirm: 'Are you sure?'}  do
+          %i.glyphicon.glyphicon-remove-sign
+      =link_to song_material_path(@song, material), :target => '_blank', title: 'Open link in new window' do
+        %i.glyphicon.glyphicon-link
+          %b=material.title
+          #{truncate material.url, length: 30}
+
+
 .h3 Video Tutorials
 %div.row
   - @song.materials.video.each do |material|
@@ -30,14 +37,11 @@
             = link_to song_material_path(@song, material), method: 'delete',  alt:'Delete', data: { confirm: 'Are you sure?'}  do
               %i.glyphicon.glyphicon-remove-sign
           %a= link_to "#{material.title}", song_material_path(@song, material), :target => '_blank'
-
-      -#=material.kind
-      -#%div.col-md-3
-      -#  %p.small
-      -#    %a= link_to "#{material.title}", song_material_path(@song, material), :target => '_blank'
-      -#%div.col-md-3
-      -#  %p.small
-      -#    %a= link_to "discard", song_material_path(@song, material), method: :delete, data: { confirm: 'Are you certain you want to delete this?' }
 %div.row
-  %div.col-md-3
-    %a= link_to "Add Material", new_song_material_path(@song), class: "btn btn-success btn-xl"
+  %div.col-md-2
+    = link_to "Add Material", new_song_material_path(@song), class: "btn btn-success btn-xl"
+  %div.col-md-2
+    = form_for @song, class: 'btn btn-success btn-xl' do |f|
+      = f.hidden_field :name
+      = f.submit 'Auto-Fetch Materials', class: 'btn btn-success'
+

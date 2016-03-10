@@ -36,7 +36,7 @@ class Material < ActiveRecord::Base
   end
 
   def check_for_chord
-    if url.include? 'songsterr' or url.include? 'ulitmate-guitar'
+    if url.include? 'songsterr' or url.include? 'ultimate-guitar'
       self.kind = KIND_CHORD
     end
   end
