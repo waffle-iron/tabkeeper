@@ -1,3 +1,15 @@
+:javascript
+  (function() {
+    var cx = '014796693518786479783:uo9ddumzfgo';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+
 %div#show-song
 
   %div.container-fluid
@@ -16,6 +28,12 @@
           %li
             %a= link_to playlist.name, playlist_songs_path(playlist)
 
+    %div.row
+      %div.col-md-3
+        %gcse:searchbox
+    %div.row
+      %div.col-md-8
+        %gcse:searchresults
     %hr
     %div.row
       %div.col-md-8
