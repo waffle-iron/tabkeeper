@@ -4,7 +4,6 @@
 #
 #  id                :integer          not null, primary key
 #  name              :string
-#  songsterr_url     :string
 #  genre_id          :integer
 #  difficulty        :integer
 #  artist_id         :integer
@@ -27,9 +26,9 @@ class Song < ActiveRecord::Base
 
   #fetch song from spotify
   def spotify_track
-    Rails.cache.fetch("{#cache_key}/spotify_track", expires_in: 12.hours) do
+    # Rails.cache.fetch("{#cache_key}/spotify_track", expires_in: 12.hours) do
       RSpotify::Track.find(self.spotify_track_id)
-    end
+    # end
   end
 
   #finds related songs by artists, very random, very inaccurate
@@ -40,4 +39,12 @@ class Song < ActiveRecord::Base
       artist.top_tracks('IE').shuffle.first
     end.flatten
   end
+
+  after_save :fetch_material
+
+  protected
+    def fetch_material
+      SongsWorker.perform_async(self.id)
+    end
+
 end

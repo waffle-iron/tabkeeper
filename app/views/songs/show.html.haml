@@ -9,22 +9,17 @@
         .play_button
           %iframe{:src => "https://embed.spotify.com/?uri=#{@song.spotify_url}", :width => "300", :height => "100", :frameborder => "0", :allowtransparency => "true"}
 
+      %div.col-md-4
+        %b Your playlists containing this song:
+        %ul
+        - @song.playlists.each do |playlist|
+          %li
+            %a= link_to playlist.name, playlist_songs_path(playlist)
+
     %hr
     %div.row
       %div.col-md-8
         =render 'songs/materials'
 
       %div.col-md-3.col-xs-offset-1
-        .header Related Songs
-        - @related_songs.each do |spotify_song|
-          %div.row
-            .media
-              .media-left
-                %a{:href => "#"}
-                  %iframe.media-object{:src => "https://embed.spotify.com/?uri=#{spotify_song.uri}",
-                     :width => '70', :height => '70', :frameborder => '0', :allowtransparency => 'true'}
-              .media-body
-                %b.media-heading= spotify_song.name
-                %p= spotify_song.artists.first.name
-                %p
-                  %a= link_to 'Add to playlist', new_song_path(spotify_song), class: 'btn btn-success btn-xs'
+        =render 'songs/related'

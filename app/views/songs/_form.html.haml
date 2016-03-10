@@ -27,5 +27,10 @@
     .col-sm-5
       = f.collection_select(:artist_id, Artist.all, :id, :name, class: 'form-control')
   .form-group
+    = f.label :playlists, class:'col-sm-1 control-label'
+    .col-sm-5
+      %div.col-md-4.checkbox-list
+        = f.collection_check_boxes(:playlist_ids, current_user.playlists, :id, :name, class: 'form-control')
+  .form-group
     .col-sm-offset-1.col-sm-5
       = f.submit 'Save', class: 'btn btn-success'

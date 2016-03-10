@@ -27,7 +27,17 @@ class SongsController < ApplicationController
 
   # GET /songs/new
   def new
-    @song = Song.new
+    @song = Song.new :spotify_track_id => params[:spotify_track_id]
+
+    if params[:spotify_track_id]
+
+      spotify_track = @song.spotify_track
+
+      @song = Song.find_or_create_by spotify_track_id: params[:spotify_track_id],
+                                     artist: Artist.find_or_create_by(name: spotify_track.artists.first.name),
+                                     name: spotify_track.name, spotify_url: spotify_track.uri
+    end
+
 
   end
 
@@ -53,7 +63,7 @@ class SongsController < ApplicationController
 
     respond_to do |format|
       if @song.save
-        format.html { redirect_to playlist_song_path(@playlist, @song), notice: 'Song was successfully created.' }
+        format.html { redirect_to song_path(@song), notice: 'Song was successfully created.' }
         format.json { render :show, status: :created, location: @song }
       else
         format.html { render :new }
@@ -121,12 +131,18 @@ class SongsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_song
-      @playlist = Playlist.find params[:playlist_id] if params[:playlist_id]
+      @playlist = Playlist.find(params[:playlist_id]) if params[:playlist_id]
       @song = Song.find(params[:id]) if params[:id]
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def song_params
-      params[:song]
+      params[:song].permit(
+          :name,
+          :spotify_track_id,
+          :spotify_url,
+          :artist_id,
+          {:playlist_ids => []}
+      )
     end
 end

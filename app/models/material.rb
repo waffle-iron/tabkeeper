@@ -26,7 +26,7 @@ class Material < ActiveRecord::Base
   scope :video, -> { where(kind: KIND_VIDEO) }
   scope :chord, -> { where(kind: KIND_CHORD) }
 
-  before_save :check_for_youtube, :check_for_songsterr
+  before_validation :check_for_youtube, :check_for_chord
 
   def check_for_youtube
     if url.include? 'youtube'
@@ -35,8 +35,8 @@ class Material < ActiveRecord::Base
     end
   end
 
-  def check_for_songsterr
-    if url.include? 'songsterr'
+  def check_for_chord
+    if url.include? 'songsterr' or url.include? 'ulitmate-guitar'
       self.kind = KIND_CHORD
     end
   end
