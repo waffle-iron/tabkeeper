@@ -23,6 +23,7 @@ class SongsWorkerTest < ActiveSupport::TestCase
     song = Song.find(song.id)
 
     assert_not_empty song.materials
+    song.materials.each {|m| puts m.kind }
   end
 
 end

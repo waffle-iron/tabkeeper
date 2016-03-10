@@ -9,36 +9,22 @@
         .play_button
           %iframe{:src => "https://embed.spotify.com/?uri=#{@song.spotify_url}", :width => "300", :height => "100", :frameborder => "0", :allowtransparency => "true"}
 
+    %hr
     %div.row
       %div.col-md-8
-        .header Available Materials
-        - @materials.each do |material|
-          %div.row
-            %div.col-md-2
-              =material.kind
-            %div.col-md-3
-              %p.small
-                %a= link_to "#{material.title}", song_material_path(@song, material), :target => '_blank'
-            %div.col-md-3
-              %p.small
-                %a= link_to "discard", song_material_path(@song, material), method: :delete, data: { confirm: 'Are you certain you want to delete this?' }
-        %div.row
-          %div.col-md-3
-            %a= link_to "Add Material", new_song_material_path(@song), class: "btn btn-success btn-xl"
+        =render 'songs/materials'
 
-      -#=form_for [@playlist, @song, material] do |f|
-      -#  = f.hidden_field :keep, value: true
-      -#  = f.submit 'Keep', class: 'btn btn-success btn-xs'
-
-      %div.col-sm-3
+      %div.col-md-3.col-xs-offset-1
         .header Related Songs
         - @related_songs.each do |spotify_song|
           %div.row
-            %div.col-sm-3
-              %iframe{:src => "https://embed.spotify.com/?uri=#{spotify_song.uri}",
-                :width => "80", :height => "80", :frameborder => "0", :allowtransparency => "true"}
-            %div.col-sm-9
-              %p.small
-                = "#{spotify_song.name}"
-                %br= spotify_song.artists.first.name
-                %a= link_to "Add to playlist", new_song_path(spotify_song), class: "btn btn-success btn-xl"
+            .media
+              .media-left
+                %a{:href => "#"}
+                  %iframe.media-object{:src => "https://embed.spotify.com/?uri=#{spotify_song.uri}",
+                     :width => '70', :height => '70', :frameborder => '0', :allowtransparency => 'true'}
+              .media-body
+                %b.media-heading= spotify_song.name
+                %p= spotify_song.artists.first.name
+                %p
+                  %a= link_to 'Add to playlist', new_song_path(spotify_song), class: 'btn btn-success btn-xs'

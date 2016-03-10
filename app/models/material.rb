@@ -18,6 +18,14 @@ class Material < ActiveRecord::Base
   KIND_VIDEO = 'video'
   KIND_CHORD = 'chord'
 
+  TYPES = [KIND_VIDEO, KIND_CHORD]
+
+  validates_inclusion_of :kind, :in => TYPES
+
+  # Define a named scope for each state in TYPES
+  scope :video, -> { where(kind: KIND_VIDEO) }
+  scope :chord, -> { where(kind: KIND_CHORD) }
+
   before_save :check_for_youtube, :check_for_songsterr
 
   def check_for_youtube

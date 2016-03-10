@@ -43,7 +43,6 @@ class YoutubeService
     }
   end
 
-
   DEVELOPER_KEY = 'AIzaSyDaFZsrBWmKjSuxmb_8F6gW-A9Za3F38nA'
   YOUTUBE_API_SERVICE_NAME = 'youtube'
   YOUTUBE_API_VERSION = 'v3'
