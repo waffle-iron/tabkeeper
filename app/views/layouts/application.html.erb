@@ -17,9 +17,10 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-      <form class="navbar-form navbar-left" role="search">
+      <form action="<%= songs_path(action_name: 'search') %>" class="navbar-form navbar-left" role="search">
         <div class="input-group input-group-sm text-success">
-          <input type="text" class="form-control" placeholder="Search songs" name="srch-term" id="srch-term">
+          <input type="text" class="form-control" placeholder="Search songs" name="q" id="q">
+
           <div class="input-group-btn">
             <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
           </div>
@@ -35,7 +36,10 @@
             <%= link_to "Login", new_user_session_path, :class => 'navbar-link' %>
         <% end %>
       </div>
-    </div><!-- /.navbar-collapse -->
+    </div>
+    <!-- /.navbar-collapse -->
+
+  </div>
 
 </nav>
 

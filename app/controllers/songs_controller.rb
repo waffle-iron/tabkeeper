@@ -9,6 +9,11 @@ class SongsController < ApplicationController
       @title = @playlist.name unless @playlist.nil?
     end
 
+    unless params[:q].nil?
+      @songs = Song.search(params[:q])
+      @title = "Results for #{params[:q]}"
+    end
+
     if @songs.nil?
       @songs = Song.all
       @title = "All available songs"

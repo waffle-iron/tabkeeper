@@ -40,6 +40,17 @@ class Song < ActiveRecord::Base
     end.flatten
   end
 
+  def self.search(pattern)
+    if pattern.blank?  # blank? covers both nil and empty string
+      all
+    else
+      wildcard_search = "%#{pattern}%"
+      where('name ILIKE :search', search: wildcard_search)
+
+    end
+  end
+
+
   after_save :fetch_material
 
   protected
