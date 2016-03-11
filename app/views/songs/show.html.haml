@@ -1,19 +1,6 @@
-:javascript
-  (function() {
-    var cx = '014796693518786479783:uo9ddumzfgo';
-    var gcse = document.createElement('script');
-    gcse.type = 'text/javascript';
-    gcse.async = true;
-    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
-      '//cse.google.com/cse.js?cx=' + cx;
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(gcse, s);
-  })();
-
 %div#show-song
 
   %div.container-fluid
-
     %div.row
 
       %div.col-md-8
@@ -21,23 +8,33 @@
         .play_button
           %iframe{:src => "https://embed.spotify.com/?uri=#{@song.spotify_url}", :width => "300", :height => "100", :frameborder => "0", :allowtransparency => "true"}
 
-      %div.col-md-4
+      %div.col-md-2
         %b Your playlists containing this song:
-        %ul
+        %ul.inline
         - @song.playlists.each do |playlist|
           %li
             %a= link_to playlist.name, playlist_songs_path(playlist)
 
     %div.row
-      %div.col-md-3
-        %gcse:searchbox
-    %div.row
       %div.col-md-8
-        %gcse:searchresults
-    %hr
-    %div.row
-      %div.col-md-8
-        =render 'songs/materials'
+        .header Materials
 
-      %div.col-md-3.col-xs-offset-1
+      %div.col-md-4.pull-right
         =render 'songs/related'
+
+      %div.col-md-8
+        %ul.nav.nav-tabs
+          %li.active
+            %a{"data-toggle" => "pill", :href => "#home"} Your Material
+          %li
+            %a{"data-toggle" => "pill", :href => "#search"} Google Results
+      %div.col-md-8
+        .tab-content
+          #home.tab-pane.active{:role => 'tabpanel'}
+            =render 'materials/index'
+          #search.tab-pane{:role => 'tabpanel'}
+            =render 'materials/search'
+
+
+
+

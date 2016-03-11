@@ -1,12 +1,11 @@
 .header Related Songs
 - @related_songs.each do |spotify_song|
-  %div.row
-    .media
-      .media-left
-        %a{:href => "#"}
-          %iframe.media-object{:src => "https://embed.spotify.com/?uri=#{spotify_song.uri}",
-                   :width => '70', :height => '70', :frameborder => '0', :allowtransparency => 'true'}
-      .media-body
-        %b.media-heading= spotify_song.name
-        %p= spotify_song.artists.first.name
-        %a= link_to 'Add to playlist', new_song_path(spotify_track_id: spotify_song.id, name: spotify_song.name),class: 'btn btn-success btn-xs'
+  .media
+    .media-left
+      %a{:href => "#"}
+        %iframe.media-object{:src => "https://embed.spotify.com/?uri=#{spotify_song.uri}",
+                 :width => '80', :height => '80', :frameborder => '0', :allowtransparency => 'true'}
+    .media-body
+      %b.media-heading= spotify_song.name
+      %p= spotify_song.artists.first.name
+      %a= link_to 'Add to playlist', new_song_path(spotify_track_id: spotify_song.id, name: spotify_song.name),class: 'btn btn-success btn-xs'

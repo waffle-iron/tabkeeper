@@ -27,6 +27,10 @@ class SongsController < ApplicationController
     @materials = @song.materials
 
     @related_songs = @song.related_songs
+
+
+    engine = CustomSearchEngine.new
+    @google_search_results = engine.fetch_results "#{@song.name} #{@song.artist.name}"
   end
 
 
@@ -134,20 +138,20 @@ class SongsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_song
-      @playlist = Playlist.find(params[:playlist_id]) if params[:playlist_id]
-      @song = Song.find(params[:id]) if params[:id]
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_song
+    @playlist = Playlist.find(params[:playlist_id]) if params[:playlist_id]
+    @song = Song.find(params[:id]) if params[:id]
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def song_params
-      params[:song].permit(
-          :name,
-          :spotify_track_id,
-          :spotify_url,
-          :artist_id,
-          {:playlist_ids => []}
-      )
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def song_params
+    params[:song].permit(
+        :name,
+        :spotify_track_id,
+        :spotify_url,
+        :artist_id,
+        {:playlist_ids => []}
+    )
+  end
 end

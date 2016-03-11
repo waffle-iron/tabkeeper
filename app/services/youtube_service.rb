@@ -1,11 +1,11 @@
-class YoutubeService
+class MyYoutubeService
   def initialize(params)
     @artist = params[:artist]
     @song = params[:song]
   end
 
   def videos
-    client, youtube = youtube_service_client
+    client, youtube = service_client
 
     # Call the search.list method to retrieve results matching the specified
     # query term.
@@ -47,8 +47,13 @@ class YoutubeService
   YOUTUBE_API_SERVICE_NAME = 'youtube'
   YOUTUBE_API_VERSION = 'v3'
 
-  def youtube_service_client
-    require 'google/api_client'
+  def service_client
+    require 'google/apis/youtube_v3'
+
+    youtube = Google::Apis::YoutubeV3::new
+
+    youtube.key = DEVELOPER_KEY
+
     client = Google::APIClient.new(
         :key => DEVELOPER_KEY,
         :authorization => nil,
