@@ -17,7 +17,6 @@ Rails.application.routes.draw do
   resources :playlists do
     resources :songs do
       get :sync_spotify, on: :collection
-      resources :materials
     end
 
     get :select_spotify, on: :collection

@@ -14,7 +14,11 @@
     .media-body
       %b
         =link_to item.title, item.link, target: '_blank'
-        %span.glyphicon.glyphicon-plus-sign
+        =form_for [@song, Material.new(:song=>@song)] do |f|
+          = f.hidden_field :title, value: item.title
+          = f.hidden_field :url, value: item.link
+          %div.pull-right
+            = button_tag '', type: 'link', class: 'btn btn-success btn-icon btn-link glyphicon glyphicon-plus-sign', title: 'Add to your materials'
       %p
         %a= link_to item.display_link, item.link, target: '_blank'
       %p= raw item.html_snippet

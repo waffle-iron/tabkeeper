@@ -6,7 +6,10 @@ class CustomSearchEngine
   attr_accessor :client
 
   def fetch_results(query)
-    self.client.list_cses query, cx: SEARCH_ENGINE_ID
+    key = query.hash
+    Rails.cache.fetch("#{key}/google_results", expires_in: 48.hours) do
+      self.client.list_cses query, cx: SEARCH_ENGINE_ID
+    end
 
   end
 

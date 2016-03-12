@@ -24,3 +24,14 @@
     margin-left: 10%;
     width: 80%;
 }
+
+.btn-link {
+    color: black;
+    display:inline;
+    text-decoration: none;
+}
+.btn-link:hover {
+    color: white;
+    background-color: black;
+    text-decoration: none;
+}

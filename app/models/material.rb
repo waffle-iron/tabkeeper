@@ -21,6 +21,7 @@ class Material < ActiveRecord::Base
   TYPES = [KIND_VIDEO, KIND_CHORD]
 
   validates_inclusion_of :kind, :in => TYPES
+  validates :url, uniqueness: true
 
   # Define a named scope for each state in TYPES
   scope :video, -> { where(kind: KIND_VIDEO) }
