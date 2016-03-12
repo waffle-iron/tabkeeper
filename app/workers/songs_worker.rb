@@ -7,26 +7,16 @@ class SongsWorker
 
     logger.info "working for song #{song.id}"
 
-    harvest_songsterr(song)
-
-    harvest_youtube(song)
+    harvest_google(song)
   end
 
-  def harvest_youtube(song)
-    videos = YoutubeService.new({song: song.name, artist: song.artist.name}).videos
+  def harvest_google(song)
+    google = CustomSearchEngine.new
+    results = google.fetch_results("#{song.name} #{song.artist.name}").items.take(5)
 
-    videos.each do |v|
-      Material.find_or_create_by url: v[:url], song: song, title: v[:title]
+    results.each do |res|
+      Material.find_or_create_by url: res.link, song: song, title: res.title
     end
   end
 
-
-  def harvest_songsterr(song)
-    songsterr_song = Songsterr::Song.where(:pattern => "#{song.name} #{song.artist.name}")
-
-    if songsterr_song.first
-      Material.find_or_create_by url: "http://www.songsterr.com/a/wa/song?id=#{songsterr_song.first.id}",
-                                 song: song, title: "Songsterr Link for #{song.name}"
-    end
-  end
 end

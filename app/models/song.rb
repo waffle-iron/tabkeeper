@@ -26,9 +26,9 @@ class Song < ActiveRecord::Base
 
   #fetch song from spotify
   def spotify_track
-    # Rails.cache.fetch("{#cache_key}/spotify_track", expires_in: 12.hours) do
+    Rails.cache.fetch("spotify_track/#{self.spotify_track_id}", expires_in: 12.hours) do
       RSpotify::Track.find(self.spotify_track_id)
-    # end
+    end
   end
 
   #finds related songs by artists, very random, very inaccurate
