@@ -2,14 +2,14 @@
 .h3 Chords & Tabs
 %div.row
   - @song.materials.chord.each do |material|
-    %div.col-sm-6.col-md-8
+    %div.col-sm-6.col-md-12
       %div.pull-right
         =link_to song_material_path(@song, material), method: 'delete',  alt:'Delete',  title: 'Remove this material', data: { confirm: 'Are you sure?'}  do
           %i.glyphicon.glyphicon-remove-sign
       =link_to song_material_path(@song, material), :target => '_blank', title: 'Open link in new window' do
         %i.glyphicon.glyphicon-link
-          %b=material.title
-          #{truncate material.url, length: 30}
+          %b= material.url
+      %p=material.title
 
 
 .h3 Video Tutorials

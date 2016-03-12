@@ -29,8 +29,14 @@ class SongsController < ApplicationController
     @related_songs = @song.related_songs
 
 
-    engine = CustomSearchEngine.new
-    @google_search_results = engine.fetch_results "#{@song.name} #{@song.artist.name}"
+    begin
+      engine = CustomSearchEngine.new
+      @google_search_results = engine.fetch_results "#{@song.name} #{@song.artist.name}"
+    rescue Google::Apis::ClientError => error
+      puts error.message
+    end
+
+
   end
 
 

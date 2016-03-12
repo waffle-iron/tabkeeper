@@ -6,7 +6,7 @@
 -#      %button.btn.btn-success
 -#        %span.glyphicon.glyphicon-search
 
-- @google_search_results.items.each do | item |
+- @google_search_results.items.each unless @google_search_results.nil? do | item |
   .media
     .media-left
       - unless item.pagemap['cse_thumbnail'].nil?
