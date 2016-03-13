@@ -2,37 +2,47 @@
 
   %div.container-fluid
     %div.row
-
-      %div.col-md-8
+      %div.col-md-8.col-xs-8
         .header= "Learn how to play #{@song.artist.name} - #{@song.name}"
         .play_button
           %iframe{:src => "https://embed.spotify.com/?uri=#{@song.spotify_url}", :width => "300", :height => "100", :frameborder => "0", :allowtransparency => "true"}
 
-      %div.col-md-2
-        %b Your playlists containing this song:
-        %ul.inline
+      %div.col-md-4.col-xs-4
+        %b Playlists
+        %ul.inline.list-inline
         - @song.playlists.each do |playlist|
           %li
             %a= link_to playlist.name, playlist_songs_path(playlist)
 
-    %div.row
-      %div.col-md-8
-        .header Materials
-      %div.col-md-4.pull-right
-        =render 'songs/related'
+  %div.container-fluid
+    %div.col-md-8.col-xs-12
+      .header Materials
 
-      %div.col-md-8
-        %ul.nav.nav-tabs
-          %li.active
-            %a{"data-toggle" => "pill", :href => "#home"} Your Material
-          %li
-            %a{"data-toggle" => "pill", :href => "#search"} Google Results
-      %div.col-md-8
-        .tab-content
-          #home.tab-pane.active{:role => 'tabpanel'}
-            =render 'materials/index'
-          #search.tab-pane{:role => 'tabpanel'}
-            =render 'materials/search'
+      %div.pull-right
+        %div.btn-group.btn-group-sm{:role => "group"}
+          %button.btn.btn-success
+            = link_to 'Add Material', new_song_material_path(@song), class: 'btn-success'
+            = form_for @song do |f|
+              = f.hidden_field :name
+              = button_tag 'Auto fetch materials', title: 'Add to your materials', class:'btn btn-success'
+
+
+      %ul.nav.nav-tabs
+        %li.active
+          %a{"data-toggle" => "pill", :href => "#home"} Your Material
+        %li
+          %a{"data-toggle" => "pill", :href => "#search"} Google Results
+
+    %div.col-md-8.col-xs-12
+      .tab-content
+        #home.tab-pane.active{:role => 'tabpanel'}
+          =render 'materials/index'
+        #search.tab-pane{:role => 'tabpanel'}
+          =render 'materials/search'
+
+
+    %div.col-md-4.col-xs-12
+      =render 'songs/related'
 
 
 
