@@ -28,7 +28,6 @@ class SongsController < ApplicationController
 
     @related_songs = @song.related_songs
 
-
     begin
       engine = CustomSearchEngine.new
       @google_search_results = engine.fetch_results "#{@song.name} #{@song.artist.name}"
@@ -42,15 +41,22 @@ class SongsController < ApplicationController
 
   # GET /songs/new
   def new
-    @song = Song.new :spotify_track_id => params[:spotify_track_id]
 
-    if params[:spotify_track_id]
+    @song = Song.new
+    @artist = Artist.new
+
+    unless params[:spotify_track_id].nil?
+      # todo: this is very ugly
+      @song = Song.new :spotify_track_id => params[:spotify_track_id] unless params[:spotify_track_id].nil?
 
       spotify_track = @song.spotify_track
 
+      @artist = Artist.find_or_create_by(name: spotify_track.artists.first.name)
+
       @song = Song.find_or_create_by spotify_track_id: params[:spotify_track_id],
-                                     artist: Artist.find_or_create_by(name: spotify_track.artists.first.name),
+                                     artist: @artist,
                                      name: spotify_track.name, spotify_url: spotify_track.uri
+
     end
 
 
@@ -64,15 +70,16 @@ class SongsController < ApplicationController
   # POST /songs.json
   def create
     if song_params[:spotify_track_id]
+      @artist =  Artist.find_or_create_by(name: spotify_track.artists.first.name)
       @song = Song.find_or_create_by spotify_track_id: song_params[:spotify_track_id],
-                                     artist: Artist.find_or_create_by(name: spotify_track.artists.first.name),
+                                     artist: @artist,
                                      name: spotify_track.name, spotify_url: spotify_track.uri
+    else
+      @song = Song.new(song_params)
+      @artist = Artist.find_or_create_by name: artist_params[:name]
+      @song.artist = @artist
     end
 
-    @song = Song.new(song_params) if @song.nil?
-
-    artist = Artist.find_by_name song_params[:artist_name]
-    @song.artist = artist
 
     # PlaylistsSongs.find_or_create_by song: @song, playlist: @playlist
 
@@ -160,4 +167,11 @@ class SongsController < ApplicationController
         {:playlist_ids => []}
     )
   end
+  def artist_params
+    params[:artist].permit(
+        :name,
+        :artist_id
+    )
+  end
+
 end

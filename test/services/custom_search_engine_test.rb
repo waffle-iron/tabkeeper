@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ArtistTest < ActiveSupport::TestCase
+class CustomSearchEngineTest < ActiveSupport::TestCase
 
   test 'search custom results' do
     google_search = CustomSearchEngine.new

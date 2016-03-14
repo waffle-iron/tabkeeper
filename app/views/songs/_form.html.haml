@@ -23,9 +23,10 @@
     .col-sm-5
       = f.text_field :name, class: 'form-control'
   .form-group
-    = f.label :artist, class:'col-sm-1 control-label'
-    .col-sm-5
-      = f.collection_select(:artist_id, Artist.all, :id, :name, class: 'form-control')
+    =fields_for :artist do |af|
+      = af.label :name, 'Artist', class:'col-sm-1 control-label'
+      .col-sm-5
+        = af.text_field(:name)
   .form-group
     = f.label :playlists, class:'col-sm-1 control-label'
     .col-sm-5

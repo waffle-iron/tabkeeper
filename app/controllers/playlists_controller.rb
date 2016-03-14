@@ -24,13 +24,9 @@ class PlaylistsController < ApplicationController
 
         artist = Artist.find_or_create_by name: track.artists.first.name
 
-        song = Song.find_or_initialize_by spotify_track_id: track.id,
+        song = Song.find_or_create_by spotify_track_id: track.id,
                                           spotify_url: track.uri, name: track.name, artist: artist,
-                                           album_artwork_url: track.album.images[1]['url']
-
-        if song.new_record?
-          song.save!
-        end
+                                          album_artwork_url: track.album.images[1]['url']
 
         PlaylistsSongs.find_or_create_by playlist: playlist, song: song
       end
@@ -56,10 +52,13 @@ class PlaylistsController < ApplicationController
   # POST /playlists.json
   def create
     @playlist = Playlist.new(playlist_params)
+    @link = PlaylistsUsers.new
+    @link.playlist = @playlist
+    @link.user = current_user
 
     respond_to do |format|
-      if @playlist.save
-        format.html { redirect_to @playlist, notice: 'Playlist was successfully created.' }
+      if @playlist.save && @link.save
+        format.html { redirect_to playlist_songs_path @playlist, notice: 'Playlist was successfully created.' }
         format.json { render :show, status: :created, location: @playlist }
       else
         format.html { render :new }
@@ -106,13 +105,13 @@ class PlaylistsController < ApplicationController
     spotify_playlists
   end
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_playlist
-      @playlist = Playlist.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_playlist
+    @playlist = Playlist.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def playlist_params
-      params.require(:playlist).permit(:name)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def playlist_params
+    params.require(:playlist).permit(:name)
+  end
 end
