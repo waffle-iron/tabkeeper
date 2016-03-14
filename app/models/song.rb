@@ -41,9 +41,12 @@ class Song < ActiveRecord::Base
   def identify_spotify_track
     spotify = SpotifyService.new
     track = spotify.find_by(title: self.name, artist: self.artist.name)
-    self.spotify_track_id = track.id
-    self.spotify_url = track.uri
-    self.album_artwork_url = track.album.images[1]['url']
+    unless track.nil?
+      self.spotify_track_id = track.id
+      self.spotify_url = track.uri
+      self.album_artwork_url = track.album.images[1]['url']
+    end
+
   end
 
   #finds related songs by artists, very random, very inaccurate
