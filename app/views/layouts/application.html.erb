@@ -4,6 +4,7 @@
   <title>TabKeeper</title>
   <%= stylesheet_link_tag 'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
+
   <%= csrf_meta_tags %>
 
   <%= favicon_link_tag 'favicon.png' %>
@@ -14,9 +15,9 @@
   <div class="container-fluid">
 
     <div class="navbar-header">
-        <a class="navbar-brand" href="<%= playlists_path %>">
-            <%= image_tag ('TabKeep-logo_white.png'), style: 'position: relative; top:-10px; height: 45px'%>
-        </a>
+      <a class="navbar-brand" href="<%= playlists_path %>">
+        <%= image_tag ('TabKeep-logo_white.png'), style: 'position: relative; top:-10px; height: 45px' %>
+      </a>
     </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -30,7 +31,8 @@
           </div>
         </div>
       </form>
-      <div class="navbar-text navbar-right">
+
+      <p class="navbar-text navbar-right">
         <% if user_signed_in? %>
             Logged in as <strong><%= current_user.email %></strong>.
             <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
@@ -39,7 +41,63 @@
             <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link' %> |
             <%= link_to "Login", new_user_session_path, :class => 'navbar-link' %>
         <% end %>
+      </p>
+
+      <p class="navbar-text navbar-header">
+
+      <div class="btn-toolbar">
+        <div class="navbar-btn btn-group">
+          <audio controls autoplay></audio>
+        </div>
+        <div class="navbar-btn btn-group">
+          <button onclick="startRecording()" type="button" class="btn btn-danger">
+            <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
+          </button>
+          <button onclick="stopRecording()" type="button" class="btn btn-danger">
+            <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
+          </button>
+        </div>
       </div>
+
+
+      <script>
+          var onFail = function (e) {
+              console.log('Rejected!', e);
+          };
+
+          var onSuccess = function (s) {
+              var context = new webkitAudioContext();
+              var mediaStreamSource = context.createMediaStreamSource(s);
+              recorder = new Recorder(mediaStreamSource);
+              recorder.record();
+
+              // audio loopback
+              // mediaStreamSource.connect(context.destination);
+          }
+
+          window.URL = window.URL || window.webkitURL;
+          navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+          var recorder;
+          var audio = document.querySelector('audio');
+
+          function startRecording() {
+              if (navigator.getUserMedia) {
+                  navigator.getUserMedia({audio: true}, onSuccess, onFail);
+              } else {
+                  console.log('navigator.getUserMedia not present');
+              }
+          }
+
+          function stopRecording() {
+              recorder.stop();
+              recorder.exportWAV(function (s) {
+                  audio.src = window.URL.createObjectURL(s);
+              });
+          }
+      </script>
+
+      </p>
     </div>
     <!-- /.navbar-collapse -->
 
