@@ -13,5 +13,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-//= require_tree .
 //= require recorder
+//= require_tree .
