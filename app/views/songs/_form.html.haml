@@ -20,18 +20,21 @@
           %li= msg
   .form-group
     = f.label :name, class:'col-sm-1 control-label'
-    .col-sm-5
+    .col-sm-10.col-lg-6
       = f.text_field :name, class: 'form-control'
   .form-group
     =fields_for :artist do |af|
       = af.label :name, 'Artist', class:'col-sm-1 control-label'
-      .col-sm-5
-        = af.text_field(:name)
+      .col-sm-10.col-lg-6
+        -unless @song.artist.nil?
+          =af.text_field(:name, value:@song.artist.name, class: 'form-control')
+        -else
+          =af.text_field(:name, class: 'form-control')
   .form-group
     = f.label :playlists, class:'col-sm-1 control-label'
-    .col-sm-5
+    .col-sm-10
       %div.col-md-4.checkbox-list
         = f.collection_check_boxes(:playlist_ids, current_user.playlists, :id, :name, class: 'form-control')
   .form-group
-    .col-sm-offset-1.col-sm-5
+    .col-sm-offset-1.col-sm-10.col-lg-6
       = f.submit 'Save', class: 'btn btn-success'

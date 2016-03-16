@@ -69,7 +69,7 @@ class Song < ActiveRecord::Base
       all
     else
       wildcard_search = "%#{pattern}%"
-      where('name ILIKE :search', search: wildcard_search)
+      self.joins(:artist).where('artists.name ILIKE :search OR songs.name ILIKE :search', search: wildcard_search)
 
     end
   end

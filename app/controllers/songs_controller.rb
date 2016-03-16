@@ -70,18 +70,21 @@ class SongsController < ApplicationController
   # POST /songs.json
   def create
     if song_params[:spotify_track_id]
-      @artist =  Artist.find_or_create_by(name: spotify_track.artists.first.name)
+      @artist = Artist.find_or_create_by(name: spotify_track.artists.first.name)
       @song = Song.find_or_create_by spotify_track_id: song_params[:spotify_track_id],
                                      artist: @artist,
                                      name: spotify_track.name, spotify_url: spotify_track.uri
     else
-      @song = Song.new(song_params)
       @artist = Artist.find_or_create_by name: artist_params[:name]
-      @song.artist = @artist
+      @song = Song.find_or_create_by name: song_params[:name], artist: @artist
+    end
+
+    unless song_params['playlist_ids'].nil?
+      song_params['playlist_ids'].each { |id| PlaylistsSongs.find_or_create_by song: @song, playlist_id: id }
     end
 
 
-    # PlaylistsSongs.find_or_create_by song: @song, playlist: @playlist
+    #
 
     respond_to do |format|
       if @song.save
@@ -167,6 +170,7 @@ class SongsController < ApplicationController
         {:playlist_ids => []}
     )
   end
+
   def artist_params
     params[:artist].permit(
         :name,
