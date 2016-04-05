@@ -8,11 +8,11 @@
           %iframe{:src => "https://embed.spotify.com/?uri=#{@song.spotify_url}", :width => "300", :height => "100", :frameborder => "0", :allowtransparency => "true"}
 
       %div.col-md-4.col-xs-4
-        %b Playlists
-        %ul.inline.list-inline
+        .header Playlists
         - @song.playlists.each do |playlist|
-          %li
-            %a= link_to playlist.name, playlist_songs_path(playlist)
+          %div.btn.btn-link
+            = link_to playlist_songs_path(playlist) do
+              %span.glyphicon.glyphicon-triangle-right=playlist.name
 
   %div.container-fluid
     %div.col-md-8.col-xs-12

@@ -6,6 +6,9 @@
       %th Song
       %th Artist
       %th Number of materials
+      %th Created At
+      %th
+      %th
 
   %tbody
     - @songs.each do |song|
@@ -13,6 +16,7 @@
         %td= link_to "#{song.name}", song_path(song, protocol: 'http')
         %td= link_to "#{song.artist.name}", artist_path(song.artist, protocol: 'http')
         %td= song.materials.count
+        %td= localize(song.created_at, :format => :short)
         %td= link_to 'Edit', edit_song_path(song)
         %td= link_to 'Destroy', song, :method => :delete, :data => { :confirm => 'Are you sure?' }
 %br

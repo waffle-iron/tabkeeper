@@ -18,28 +18,21 @@ class Material < ActiveRecord::Base
   KIND_VIDEO = 'video'
   KIND_CHORD = 'chord'
 
-  TYPES = [KIND_VIDEO, KIND_CHORD]
-
-  validates_inclusion_of :kind, :in => TYPES
   validates :url, uniqueness: true
 
   # Define a named scope for each state in TYPES
   scope :video, -> { where(kind: KIND_VIDEO) }
   scope :chord, -> { where(kind: KIND_CHORD) }
 
-  before_validation :check_for_youtube, :check_for_chord
+  before_validation :check_kind
 
-  def check_for_youtube
+  def check_kind
+    kind = KIND_CHORD
     if url.include? 'youtube'
       self.url = youtube_embedded_url(url) if url.include? 'youtube'
-      self.kind = KIND_VIDEO
+      kind = KIND_VIDEO
     end
-  end
-
-  def check_for_chord
-    if url.include? 'songsterr' or url.include? 'ultimate-guitar'
-      self.kind = KIND_CHORD
-    end
+    self.kind = kind
   end
 
   def youtube_embedded_url(youtube_url)

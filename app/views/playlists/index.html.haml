@@ -5,6 +5,7 @@
     %tr
       %th Name
       %th Number of Songs
+      %th Created At
       %th
   -#%th
 
@@ -13,6 +14,7 @@
       %tr
         %td= link_to playlist.name, playlist_songs_path(playlist)
         %td= playlist.songs.count
+        %td= localize(playlist.created_at, :format => :short)
         %td
           %i.icon-remove= link_to 'Delete', playlist, :method => :delete, :data => { :confirm => 'Are you sure?' },
           :class => 'btn btn-danger pull-right'
