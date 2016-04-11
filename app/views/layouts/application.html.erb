@@ -15,12 +15,24 @@
   <div class="container-fluid">
 
     <div class="navbar-header">
-      <a class="navbar-brand" href="<%= playlists_path %>">
+      <a class="navbar-brand" href="<%= songs_path %>">
         <%= image_tag ('TabKeep-logo_white.png'), style: 'position: relative; top:-10px; height: 45px' %>
       </a>
     </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Songs <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'Your Playlists', playlists_path %> </li>
+            <li role="separator" class="divider"></li>
+            <li><%= link_to 'Recently played', recent_songs_path %> </li>
+            <li><%= link_to 'Most played', most_played_songs_path %> </li>
+          </ul>
+        </li>
+      </ul>
 
       <form action="<%= songs_path(action_name: 'search') %>" class="navbar-form navbar-left" role="search">
         <div class="input-group input-group-sm text-success">

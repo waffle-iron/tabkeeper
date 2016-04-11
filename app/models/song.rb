@@ -20,6 +20,7 @@ class Song < ActiveRecord::Base
   belongs_to :artist
   has_and_belongs_to_many :playlists
   has_many :materials, dependent: :destroy
+  has_many :user_song_views
 
   after_save :fetch_material
 
@@ -72,6 +73,14 @@ class Song < ActiveRecord::Base
       self.joins(:artist).where('artists.name ILIKE :search OR songs.name ILIKE :search', search: wildcard_search)
 
     end
+  end
+
+  def self.recent_songs
+    self.joins(:user_song_views).order('user_song_views.updated_at DESC LIMIT 50')
+  end
+
+  def self.most_played
+    self.joins(:user_song_views).order('user_song_views.view_cnt DESC LIMIT 50')
   end
 
 

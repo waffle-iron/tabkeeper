@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151029210445) do
+ActiveRecord::Schema.define(version: 20160409101800) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,17 @@ ActiveRecord::Schema.define(version: 20151029210445) do
   add_index "songs", ["artist_id"], name: "index_songs_on_artist_id", using: :btree
   add_index "songs", ["genre_id"], name: "index_songs_on_genre_id", using: :btree
 
+  create_table "user_song_views", force: :cascade do |t|
+    t.integer  "song_id"
+    t.integer  "user_id"
+    t.integer  "view_cnt"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "user_song_views", ["song_id"], name: "index_user_song_views_on_song_id", using: :btree
+  add_index "user_song_views", ["user_id"], name: "index_user_song_views_on_user_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -114,4 +125,6 @@ ActiveRecord::Schema.define(version: 20151029210445) do
   add_foreign_key "materials", "songs"
   add_foreign_key "songs", "artists"
   add_foreign_key "songs", "genres"
+  add_foreign_key "user_song_views", "songs"
+  add_foreign_key "user_song_views", "users"
 end

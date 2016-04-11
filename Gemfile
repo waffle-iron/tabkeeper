@@ -50,6 +50,12 @@ gem 'bootstrap-sass', '~> 3.3.5'
 
 gem 'google-api-client', '>0.7'
 
+gem 'redis', '~>3.2'
+gem 'redis-namespace'
+
+#
+# # for recording and storing
+# gem 'aws-s3', :require => 'aws/s3'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

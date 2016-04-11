@@ -7,26 +7,48 @@ class SongsController < ApplicationController
     unless @playlist.nil?
       @songs = @playlist.songs.order(:name) unless @playlist.nil?
       @title = @playlist.name unless @playlist.nil?
+      return
     end
 
     unless params[:q].nil?
       @songs = Song.search(params[:q])
       @title = "Results for #{params[:q]}"
+      return
     end
 
-    if @songs.nil?
-      @songs = Song.all
-      @title = "All available songs"
-    end
+    @songs = Song.all
+    @title = 'All available songs'
+  end
 
+  # GET /songs/recent
+  # GET /songs/recent.json
+  def recent
+    @songs = Song.recent_songs
+    @title = 'Recently played songs'
+    render :index
+  end
+
+  # GET /songs/most_played
+  # GET /songs/most_played.json
+  def most_played
+    @songs = Song.most_played
+    @title = 'Most played songs'
+
+    render :index
   end
 
   # GET /songs/1
   # GET /songs/1.json
   def show
+
     @materials = @song.materials
 
     @related_songs = @song.related_songs
+
+    @song_views = UserSongView.find_or_create_by user: current_user, song: @song
+    @song_views.increment(:view_cnt, 1)
+    @song_views.save!
+
 
     begin
       engine = CustomSearchEngine.new

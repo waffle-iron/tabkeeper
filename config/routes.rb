@@ -5,13 +5,10 @@ Rails.application.routes.draw do
   resources :artists
 
   resources :songs do
+    get :recent, on: :collection
+    get :most_played, on: :collection
 
     resources :materials
-  end
-
-  namespace :api do
-    resources :songs do
-    end
   end
 
   resources :playlists do

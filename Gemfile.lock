@@ -402,6 +402,8 @@ DEPENDENCIES
   rails (= 4.2.3)
   rails_12factor
   redcarpet
+  redis (~> 3.2)
+  redis-namespace
   rqrcode
   rspotify
   sass-rails (~> 5.0)
