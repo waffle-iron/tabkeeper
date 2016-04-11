@@ -23,7 +23,7 @@ class SongsController < ApplicationController
   # GET /songs/recent
   # GET /songs/recent.json
   def recent
-    @songs = Song.recent_songs
+    @songs = Song.recent_songs(current_user)
     @title = 'Recently played songs'
     render :index
   end
@@ -31,7 +31,7 @@ class SongsController < ApplicationController
   # GET /songs/most_played
   # GET /songs/most_played.json
   def most_played
-    @songs = Song.most_played
+    @songs = Song.most_played(current_user)
     @title = 'Most played songs'
 
     render :index
