@@ -1,5 +1,7 @@
 class MaterialsController < ApplicationController
   before_action :set_material
+  before_action :authenticate_user!, except: [:show, :index]
+
 
   # GET /materials
   # GET /materials.json

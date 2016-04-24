@@ -1,5 +1,6 @@
 class SongsController < ApplicationController
   before_action :set_song, only: [:show, :edit, :update, :destroy, :index, :new, :create]
+  before_action :authenticate_user!, except: [:show, :index]
 
   # GET /songs
   # GET /songs.json
@@ -45,9 +46,11 @@ class SongsController < ApplicationController
 
     @related_songs = @song.related_songs
 
-    @song_views = UserSongView.find_or_create_by user: current_user, song: @song
-    @song_views.increment(:view_cnt, 1)
-    @song_views.save!
+    unless current_user.nil?
+      @song_views = UserSongView.find_or_create_by user: current_user, song: @song
+      @song_views.increment(:view_cnt, 1)
+      @song_views.save!
+    end
 
 
     begin
