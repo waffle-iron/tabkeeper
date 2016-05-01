@@ -23,17 +23,31 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:spotify]
 
   has_many :materials
 
   before_create :generate_device_link_key
 
   has_many :login_attempts
+  has_many :user_song_views, :dependent => :delete_all
 
   has_and_belongs_to_many :playlists
 
   serialize :spotify_info_hash, Hash
+
+  def self.from_omniauth(auth)
+    spotify_user = RSpotify::User.new(auth)
+
+    # persist user info
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      user.spotify_info_hash = spotify_user.to_hash
+      user.password = Devise.friendly_token[0,20]
+      user.name = auth.info.name   # assuming the user model has a name
+      user.image = auth.info.image # assuming the user model has an image
+    end
+  end
 
   def generate_device_link_key
     self.device_link_key = SecureRandom.hex

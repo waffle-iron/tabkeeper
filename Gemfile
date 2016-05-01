@@ -44,6 +44,7 @@ gem 'slim'
 gem 'mechanize'
 gem 'songsterr', '~> 0.1.1'
 gem 'rspotify'
+gem 'omniauth-spotify'
 
 # twitter bootstrap
 gem 'bootstrap-sass', '~> 3.3.5'

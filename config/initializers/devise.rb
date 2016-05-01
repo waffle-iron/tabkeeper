@@ -240,6 +240,9 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
+  config.omniauth :spotify, '589db776e9944bd1b2e83d0c1f19f5f1', 'a9c07216572a44938a73667039467e50',
+                  scope: 'playlist-read-private user-read-birthdate playlist-read-collaborative user-library-read user-library-modify user-read-private user-read-email playlist-modify-public user-library-read user-library-modify'
+
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
@@ -262,4 +265,5 @@ Devise.setup do |config|
   # When using OmniAuth, Devise cannot automatically set OmniAuth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
+
 end
