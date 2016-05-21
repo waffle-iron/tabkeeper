@@ -10,7 +10,7 @@
       %div.col-md-4.col-xs-4
         .header Playlists
         - @song.playlists.each do |playlist|
-          = button_to playlist.name, playlist_songs_path(playlist), class:'btn btn-default'
+          = link_to playlist.name, playlist_songs_path(playlist), class:'btn btn-default'
 
   %div.container-fluid
     %div.col-md-8.col-xs-12
