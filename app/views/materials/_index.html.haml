@@ -1,19 +1,18 @@
 
 .h3 Chords & Tabs
 
-%div.row
-  - @song.materials.chord.each do |material|
-    %div.col-xs-12.col-md-12
+- @song.materials.chord.each do |material|
+  .media
+    .media-body
       %div.pull-right
         =link_to song_material_path(@song, material), method: 'delete',  alt:'Delete',  title: 'Remove this material', data: { confirm: 'Are you sure?'}  do
           %i.glyphicon.glyphicon-remove-sign
         =link_to edit_song_material_path(@song, material), alt:'Edit',  title: 'Edit this material' do
           %i.glyphicon.glyphicon-edit
-      %p=material.title
-      =link_to material.url, :target => '_blank', title: 'Open link in new window' do
-        %i.glyphicon.glyphicon-link
-          = material.url
-
+      %b
+        =link_to material.title, material.url, target: '_blank'
+      %p
+        %a= link_to material.url, material.url, target: '_blank'
 
 .h3 Video Tutorials
 %div.row
