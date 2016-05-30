@@ -1,24 +1,26 @@
-%h1.pull-left= @title
 
-%table.table.table-striped
-  %thead
-    %tr
-      %th Song
-      %th Artist
-      %th Number of materials
-      %th Created At
-      %th
-      %th
-
-  %tbody
-    - @songs.each do |song|
+%div.table-responsive
+  %h1= @title
+  %div.pull-right
+    = link_to 'Add New Song', new_song_path(@playlist), class: 'btn btn-success btn-md', role: 'button'
+  %table.table.table-striped
+    %thead
       %tr
-        %td= link_to "#{song.name}", song_path(song, protocol: 'http')
-        %td= link_to "#{song.artist.name}", artist_path(song.artist, protocol: 'http')
-        %td= song.materials.count
-        %td= localize(song.created_at, :format => :short)
-        %td= link_to 'Edit', edit_song_path(song)
-        %td= link_to 'Destroy', song, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %th Song
+        %th Artist
+        %th Number of materials
+        %th Created At
+        %th
+        %th
+
+    %tbody
+      - @songs.each do |song|
+        %tr
+          %td= link_to "#{song.name}", song_path(song, protocol: 'http')
+          %td= link_to "#{song.artist.name}", artist_path(song.artist, protocol: 'http')
+          %td= song.materials.count
+          %td= localize(song.created_at, :format => :short)
+          %td= link_to 'Edit', edit_song_path(song)
+          %td= link_to 'Destroy', song, :method => :delete, :data => { :confirm => 'Are you sure?' }
 %br
 
-= link_to 'Add Song', new_song_path(@playlist), class: 'btn btn-success btn-lg'
