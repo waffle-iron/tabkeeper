@@ -6,12 +6,12 @@
   <%= javascript_include_tag 'application' %>
 
   <%= csrf_meta_tags %>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <%= favicon_link_tag 'favicon.png' %>
 </head>
 <body class="<%= controller_name %> <%= action_name %>">
 
-<nav class="navbar navbar-inverse navbar-static-top">
+<nav class="navbar navbar-inverse">
   <div class="container-fluid">
 
     <div class="navbar-header">
@@ -20,7 +20,18 @@
       </a>
     </div>
 
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <p class="navbar-text navbar-right">
+      <% if user_signed_in? %>
+          Logged in as <strong><%= current_user.email %></strong>.
+          <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
+          <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link' %>
+      <% else %>
+          <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link' %> |
+          <%= link_to "Login", new_user_session_path, :class => 'navbar-link' %>
+      <% end %>
+    </p>
+
+    <div>
 
       <ul class="nav navbar-nav">
         <li class="dropdown">
@@ -43,17 +54,6 @@
           </div>
         </div>
       </form>
-
-      <p class="navbar-text navbar-right">
-        <% if user_signed_in? %>
-            Logged in as <strong><%= current_user.email %></strong>.
-            <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
-            <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link' %>
-        <% else %>
-            <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link' %> |
-            <%= link_to "Login", new_user_session_path, :class => 'navbar-link' %>
-        <% end %>
-      </p>
 
       <p class="navbar-text navbar-header">
 

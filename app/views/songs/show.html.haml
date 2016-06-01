@@ -2,34 +2,35 @@
 
   %div.container-fluid
     %div.row
-      %div.col-md-8.col-xs-8
+      %div.col-md-8.col-xs-12
         .header= "Learn how to play #{@song.artist.name} - #{@song.name}"
         .play_button
           %iframe{:src => "https://embed.spotify.com/?uri=#{@song.spotify_url}", :width => "300", :height => "100", :frameborder => "0", :allowtransparency => "true"}
 
-      %div.col-md-4.col-xs-4
+      %div.col-md-4.col-xs-12
         .header Playlists
         - @song.playlists.each do |playlist|
-          = link_to playlist.name, playlist_songs_path(playlist), class:'btn btn-default'
+          = link_to playlist.name, playlist_songs_path(playlist), class:'btn'
 
   %div.container-fluid
     %div.col-md-8.col-xs-12
-      .header Materials
 
-      %div.pull-right
-        %div.btn-group.btn-group-sm{:role => "group"}
-          %button.btn.btn-success
-            = link_to 'Add Material', new_song_material_path(@song), class: 'btn-success'
-            = form_for @song do |f|
-              = f.hidden_field :name
-              = button_tag 'Auto fetch materials', title: 'Add to your materials', class:'btn btn-success'
+    .header Materials
+
+    %div.pull-right
+      %div.btn-group.btn-group-sm{:role => "group"}
+        %button.btn.btn-success
+          = link_to 'Add Material', new_song_material_path(@song), class: 'btn-success'
+          = form_for @song do |f|
+            = f.hidden_field :name
+            = button_tag 'Auto fetch materials', title: 'Add to your materials', class:'btn btn-success'
 
 
-      %ul.nav.nav-tabs
-        %li.active
-          %a{"data-toggle" => "pill", :href => "#home"} Saved Material
-        %li
-          %a{"data-toggle" => "pill", :href => "#search"} Google Results
+    %ul.nav.nav-tabs
+      %li.active
+        %a{"data-toggle" => "pill", :href => "#home"} Saved Material
+      %li
+        %a{"data-toggle" => "pill", :href => "#search"} Google Results
 
     %div.col-md-8.col-xs-12
       .tab-content
