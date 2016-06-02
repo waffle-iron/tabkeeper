@@ -20,22 +20,34 @@
       </a>
     </div>
 
-    <p class="navbar-text navbar-right">
+    <div>
       <% if user_signed_in? %>
-          Logged in as <strong><%= current_user.email %></strong>.
-          <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
-          <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link' %>
-      <% else %>
-          <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link' %> |
-          <%= link_to "Login", new_user_session_path, :class => 'navbar-link' %>
-      <% end %>
-    </p>
-
+    <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <strong><%= current_user.email %></strong>
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> </li>
+                <li><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link' %></li>
+              </ul>
+            </li>
+            </ul>
+        <% else %>
+            <ul class="nav navbar-nav navbar-right">
+              <li><%= link_to "Login", new_user_session_path, :class => 'navbar-link' %></li>
+            </ul>
+        <% end %>
+        </div>
     <div>
 
       <ul class="nav navbar-nav">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Playlists <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle"
+             data-toggle="dropdown"
+             role="button" aria-haspopup="true" aria-expanded="false">Playlists
+            <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><%= link_to 'Your Playlists', playlists_path %> </li>
             <li role="separator" class="divider"></li>
@@ -46,15 +58,15 @@
       </ul>
 
 
-        <form action="<%= songs_path(action_name: 'search') %>" class="navbar-form navbar-left" role="search">
-          <div class="input-group input-group-sm text-success">
-            <input type="text" class="form-control" placeholder="Search songs" name="q" id="q">
+      <form action="<%= songs_path(action_name: 'search') %>" class="navbar-form navbar-left" role="search">
+        <div class="input-group input-group-sm text-success">
+          <input type="text" class="form-control" placeholder="Search songs" name="q" id="q">
 
-            <div class="input-group-btn">
-              <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-            </div>
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
           </div>
-        </form>
+        </div>
+      </form>
 
 
       <p class="navbar-text navbar-header">
@@ -75,40 +87,40 @@
 
 
       <script>
-          var onFail = function (e) {
-              console.log('Rejected!', e);
-          };
+        var onFail = function (e) {
+          console.log('Rejected!', e);
+        };
 
-          var onSuccess = function (s) {
-              var context = new webkitAudioContext();
-              var mediaStreamSource = context.createMediaStreamSource(s);
-              recorder = new Recorder(mediaStreamSource);
-              recorder.record();
+        var onSuccess = function (s) {
+          var context = new webkitAudioContext();
+          var mediaStreamSource = context.createMediaStreamSource(s);
+          recorder = new Recorder(mediaStreamSource);
+          recorder.record();
 
-              // audio loopback
-              // mediaStreamSource.connect(context.destination);
+          // audio loopback
+          // mediaStreamSource.connect(context.destination);
+        }
+
+        window.URL = window.URL || window.webkitURL;
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+        var recorder;
+        var audio = document.querySelector('audio');
+
+        function startRecording() {
+          if (navigator.getUserMedia) {
+            navigator.getUserMedia({audio: true}, onSuccess, onFail);
+          } else {
+            console.log('navigator.getUserMedia not present');
           }
+        }
 
-          window.URL = window.URL || window.webkitURL;
-          navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-
-          var recorder;
-          var audio = document.querySelector('audio');
-
-          function startRecording() {
-              if (navigator.getUserMedia) {
-                  navigator.getUserMedia({audio: true}, onSuccess, onFail);
-              } else {
-                  console.log('navigator.getUserMedia not present');
-              }
-          }
-
-          function stopRecording() {
-              recorder.stop();
-              recorder.exportWAV(function (s) {
-                  audio.src = window.URL.createObjectURL(s);
-              });
-          }
+        function stopRecording() {
+          recorder.stop();
+          recorder.exportWAV(function (s) {
+            audio.src = window.URL.createObjectURL(s);
+          });
+        }
       </script>
 
       </p>
