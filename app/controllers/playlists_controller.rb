@@ -24,10 +24,9 @@ class PlaylistsController < ApplicationController
       spotify_playlist.tracks.each do |track|
 
         artist = Artist.find_or_create_by name: track.artists.first.name
-
         song = Song.find_or_create_by spotify_track_id: track.id,
-                                          spotify_url: track.uri, name: track.name, artist: artist,
-                                          album_artwork_url: track.album.images[1]['url']
+                                      spotify_url: track.uri, name: track.name, artist: artist,
+                                      album_artwork_url: track.album.images[1]['url'] if track.album.images.any?
 
         PlaylistsSongs.find_or_create_by playlist: playlist, song: song
       end
