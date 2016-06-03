@@ -13,11 +13,11 @@ Rails.application.routes.draw do
 
   resources :playlists do
     resources :songs do
-      get :sync_spotify, on: :collection
+      get :import, on: :collection
     end
 
     get :select_spotify, on: :collection
-    post :sync_spotify, on: :collection
+    post :import, on: :collection
   end
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }

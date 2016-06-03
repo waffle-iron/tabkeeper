@@ -20,7 +20,7 @@ class Song < ActiveRecord::Base
   belongs_to :artist
   has_and_belongs_to_many :playlists
   has_many :materials, dependent: :destroy
-  has_many :user_song_views
+  has_many :user_song_views, dependent: :destroy
 
   after_save :fetch_material
 

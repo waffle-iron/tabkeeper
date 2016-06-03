@@ -1,6 +1,7 @@
 class PlaylistsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_playlist, only: [:show, :edit, :update, :destroy]
+  before_action :set_spotify_service
 
   # GET /playlists
   # GET /playlists.json
@@ -9,12 +10,16 @@ class PlaylistsController < ApplicationController
   end
 
   def select_spotify
-    @spotify_playlists = get_user_spotify_playlists
+    service = SpotifyService.new
+
+    @spotify_playlists = service.get_user_playlists(current_user)
     @currently_synced_playlists = current_user.playlists.map { |p| p.spotify_id }
   end
 
-  def sync_spotify
-    @spotify_playlists = get_user_spotify_playlists
+  def import
+    service = SpotifyService.new
+    @spotify_playlists = service.get_user_playlists(current_user)
+
     @selected_playlists = @spotify_playlists.select { |p| params[:playlists].member?(p.id) }
 
     @selected_playlists.each do |spotify_playlist|
@@ -93,18 +98,6 @@ class PlaylistsController < ApplicationController
 
   private
 
-  def get_user_spotify_playlists
-    spotify_playlists = @spotify_user.playlists(limit: 50, offset: 0)
-
-    if spotify_playlists.length == 50
-      #get another batch so we support up to 100 playlists
-      more_spotify_playlists = @spotify_user.playlists(limit: 50, offset: 50)
-      spotify_playlists = spotify_playlists.concat more_spotify_playlists
-    end
-
-    spotify_playlists
-  end
-
   # Use callbacks to share common setup or constraints between actions.
   def set_playlist
     @playlist = Playlist.find(params[:id])
@@ -114,4 +107,5 @@ class PlaylistsController < ApplicationController
   def playlist_params
     params.require(:playlist).permit(:name)
   end
+
 end
