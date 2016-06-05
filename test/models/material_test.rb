@@ -17,11 +17,12 @@ class MaterialTest < ActiveSupport::TestCase
   test 'change youtube url to embedded url' do
     my_artist = Artist.create! name: 'Linkin Park'
     my_song = Song.find_or_create_by! name: 'Numb', artist: my_artist
-    my_material = Material.find_or_create_by! url: 'https://www.youtube.com/watch?v=kXYiU_JCYtU', title: 'test title', song: my_song
+    my_material = Material.find_or_create_by! url: 'https://www.youtube.com/watch?v=kXYiU_JCYtU'
+
     assert_not_nil my_material
     assert_includes my_song.materials, my_material
 
-    expected_url = 'http://www.youtube.com/embed/kXYiU_JCYtU'
+    expected_url = 'https://www.youtube.com/embed/kXYiU_JCYtU'
 
     assert_equal expected_url, my_material.url
     assert_equal 'video', my_material.kind

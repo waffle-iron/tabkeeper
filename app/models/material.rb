@@ -26,6 +26,14 @@ class Material < ActiveRecord::Base
 
   before_validation :check_kind
 
+  def https_uri
+    uri = URI self.url
+    URI::HTTPS.build(
+        :host => uri.host,
+        :path => uri.path,
+    )
+  end
+
   def check_kind
     kind = KIND_CHORD
     if url.include? 'youtube'
@@ -44,7 +52,7 @@ class Material < ActiveRecord::Base
       youtube_id = $5
     end
 
-    "http://www.youtube.com/embed/#{ youtube_id }"
+    "https://www.youtube.com/embed/#{ youtube_id }"
   end
 
 end

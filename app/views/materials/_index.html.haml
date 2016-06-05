@@ -20,7 +20,7 @@
     %div.col-xs-12.col-md-8.col-sm-6.col-lg-8
       %div.thumbnail
         .embed-responsive.embed-responsive-4by3
-          %iframe.embed-responsive-item{:src => material.url}
+          %iframe.embed-responsive-item{:src => material.https_uri}
         %div.caption
           %div.pull-right
             = link_to song_material_path(@song, material), method: 'delete',  alt:'Delete', data: { confirm: 'Are you sure?'}  do
