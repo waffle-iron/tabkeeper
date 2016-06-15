@@ -22,6 +22,7 @@ module Playme
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+    config.serve_static_assets = true
   end
 end
 RSpotify::authenticate('589db776e9944bd1b2e83d0c1f19f5f1', 'a9c07216572a44938a73667039467e50')
