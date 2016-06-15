@@ -1,0 +1,27 @@
+.h3 Results from Youtube
+-#= form_tag song_path(@song) do
+-#  .input-group.col-md-12
+-#    = text_field_tag 'query', "#{@song.artist.name} #{@song.name}", class:'search-query form-control'
+-#    %span.input-group-btn
+-#      %button.btn.btn-success
+-#        %span.glyphicon.glyphicon-search
+
+- unless @youtube_search_results.nil?
+  - @youtube_search_results.items.each do | item |
+    .media
+      .media-left
+        - unless item.pagemap['cse_thumbnail'].nil?
+          %a
+            = link_to item.link do
+              =image_tag item.pagemap['cse_thumbnail'].first['src'], height: 80
+      .media-body
+        %b
+          =link_to item.title, item.link, target: '_blank'
+          =form_for [@song, Material.new(:song=>@song)] do |f|
+            = f.hidden_field :title, value: item.title
+            = f.hidden_field :url, value: item.link
+            %div.pull-right
+              = button_tag '', type: 'link', class: 'btn btn-success btn-icon btn-link glyphicon glyphicon-plus-sign', title: 'Add to your materials'
+        %p
+          %a= link_to item.display_link, item.link, target: '_blank'
+        %p= raw item.html_snippet

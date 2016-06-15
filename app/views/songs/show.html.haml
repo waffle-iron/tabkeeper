@@ -29,14 +29,17 @@
           %a{"data-toggle" => "pill", :href => "#home"} Saved Material
         %li
           %a{"data-toggle" => "pill", :href => "#search"} Google Results
+        %li
+          %a{"data-toggle" => "pill", :href => "#youtube"} Youtube Results
 
-      %div.col-md-8.col-xs-12
-        .tab-content
-          #home.tab-pane.active{:role => 'tabpanel'}
-            =render 'materials/index'
-          #search.tab-pane{:role => 'tabpanel'}
-            =render 'materials/search'
-
+    %div.col-md-8.col-xs-12
+      .tab-content
+        #home.tab-pane.active{:role => 'tabpanel'}
+          =render 'materials/index'
+        #search.tab-pane{:role => 'tabpanel'}
+          =render 'materials/search'
+        #youtube.tab-pane{:role => 'tabpanel'}
+          =render 'materials/youtube'
 
     %div.col-md-4.col-xs-12
       =render 'songs/related'

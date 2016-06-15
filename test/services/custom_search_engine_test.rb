@@ -4,7 +4,7 @@ class CustomSearchEngineTest < ActiveSupport::TestCase
 
   test 'search custom results' do
     google_search = CustomSearchEngine.new
-    search_results = google_search.fetch_results 'Hello Adele'
+    search_results = google_search.fetch_tabs_and_chords 'Hello Adele'
 
     search_results.items.each do |item|
       assert_not_empty item.instance_variables

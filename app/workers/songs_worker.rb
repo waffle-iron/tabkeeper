@@ -14,7 +14,7 @@ class SongsWorker
 
   def harvest_google(song)
     google = CustomSearchEngine.new
-    results = google.fetch_results("#{song.name} #{song.artist.name}").items.take(5)
+    results = google.fetch_tabs_and_chords("#{song.name} #{song.artist.name}").items.take(5)
 
     results.each do |res|
       Material.find_or_create_by url: res.link, song: song, title: res.title

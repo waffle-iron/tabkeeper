@@ -55,7 +55,10 @@ class SongsController < ApplicationController
 
     begin
       engine = CustomSearchEngine.new
-      @google_search_results = engine.fetch_results "#{@song.name} #{@song.artist.name}"
+      query = "#{@song.name} #{@song.artist.name}"
+      @google_search_results = engine.fetch_tabs_and_chords query
+      @youtube_search_results = engine.fetch_youtube_results query
+      abc = 'e'
     rescue Google::Apis::ClientError => error
       puts error.message
     end

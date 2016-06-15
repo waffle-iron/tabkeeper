@@ -10,16 +10,20 @@
   - @google_search_results.items.each do | item |
     .media
       .media-left
-        - unless item.pagemap['cse_thumbnail'].nil?
-          = image_tag item.pagemap['cse_thumbnail'].first['src'], height: 80
+        - unless item.pagemap['cse_image'].nil?
+          = image_tag item.pagemap['cse_image'].first['src'], height: 40
       .media-body
-        %b
-          =link_to item.title, item.link, target: '_blank'
+        %div.pull-right
           =form_for [@song, Material.new(:song=>@song)] do |f|
             = f.hidden_field :title, value: item.title
             = f.hidden_field :url, value: item.link
-            %div.pull-right
-              = button_tag '', type: 'link', class: 'btn btn-success btn-icon btn-link glyphicon glyphicon-plus-sign', title: 'Add to your materials'
+            = button_tag '', type: 'link', class: 'btn btn-success btn-icon btn-link glyphicon glyphicon-plus-sign', title: 'Add to your materials'
+        %div.pull-right
+          -unless item.pagemap['aggregaterating'].nil?
+            %div.star-ratings-sprite
+              %span.star-ratings-sprite-rating{style:"width:#{number_to_percentage(item.pagemap['aggregaterating'].first['ratingvalue'].to_f * 20)}"}
+        %b=link_to item.title, item.link, target: '_blank'
         %p
           %a= link_to item.display_link, item.link, target: '_blank'
         %p= raw item.html_snippet
+
