@@ -68,62 +68,6 @@
         </div>
       </form>
 
-
-      <p class="navbar-text navbar-header">
-
-      <div class="btn-toolbar">
-        <div class="navbar-btn btn-group">
-          <audio controls autoplay></audio>
-        </div>
-        <div class="navbar-btn btn-group">
-          <button onclick="startRecording()" type="button" class="btn btn-danger btn-sm">
-            <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
-          </button>
-          <button onclick="stopRecording()" type="button" class="btn btn-danger btn-sm">
-            <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
-          </button>
-        </div>
-      </div>
-
-
-      <script>
-        var onFail = function (e) {
-          console.log('Rejected!', e);
-        };
-
-        var onSuccess = function (s) {
-          var context = new webkitAudioContext();
-          var mediaStreamSource = context.createMediaStreamSource(s);
-          recorder = new Recorder(mediaStreamSource);
-          recorder.record();
-
-          // audio loopback
-          // mediaStreamSource.connect(context.destination);
-        }
-
-        window.URL = window.URL || window.webkitURL;
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-
-        var recorder;
-        var audio = document.querySelector('audio');
-
-        function startRecording() {
-          if (navigator.getUserMedia) {
-            navigator.getUserMedia({audio: true}, onSuccess, onFail);
-          } else {
-            console.log('navigator.getUserMedia not present');
-          }
-        }
-
-        function stopRecording() {
-          recorder.stop();
-          recorder.exportWAV(function (s) {
-            audio.src = window.URL.createObjectURL(s);
-          });
-        }
-      </script>
-
-      </p>
     </div>
     <!-- /.navbar-collapse -->
 
@@ -142,6 +86,9 @@
 
   <%= yield %>
 </div>
+
+
+
 
 </body>
 </html>

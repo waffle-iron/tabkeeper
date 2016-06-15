@@ -31,6 +31,8 @@
           %a{"data-toggle" => "pill", :href => "#search"} Google Results
         %li
           %a{"data-toggle" => "pill", :href => "#youtube"} Youtube Results
+        %li
+          %a{"data-toggle" => "pill", :href => "#recordings"} Record Yourself
 
     %div.col-md-8.col-xs-12
       .tab-content
@@ -40,6 +42,8 @@
           =render 'materials/search'
         #youtube.tab-pane{:role => 'tabpanel'}
           =render 'materials/youtube'
+        #recordings.tab-pane{:role => 'tabpanel'}
+          =render 'materials/recordings'
 
     %div.col-md-4.col-xs-12
       =render 'songs/related'
