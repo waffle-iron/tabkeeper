@@ -7,14 +7,16 @@ class SongsWorker
 
     logger.info "working for song #{song.id}"
 
-    harvest_google(song)
+    # disabling as it is too expensive with google search engine
 
-    harvest_songsterr(song)
+    # harvest_google(song)
+
+    # harvest_songsterr(song)
   end
 
   def harvest_google(song)
     google = CustomSearchEngine.new
-    results = google.fetch_tabs_and_chords("#{song.name} #{song.artist.name}").items.take(5)
+    results = google.fetch_tabs_and_chords("#{song.name} #{song.artist.name}").items.take(2)
 
     results.each do |res|
       Material.find_or_create_by url: res.link, song: song, title: res.title
