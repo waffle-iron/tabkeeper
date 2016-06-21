@@ -1,27 +1,27 @@
 %h1 Listing playlists
-
-%table.table.table-striped.table-responsive
-  %thead
-    %tr
-      %th Name
-      %th Number of Songs
-      %th Created At
-      %th
-  -#%th
-
-  %tbody
-    - @playlists.each do |playlist|
+%div.table-responsive
+  %div.pull-right
+    = link_to 'New Playlist', new_playlist_path, class: 'btn btn-success'
+    = link_to 'Sync Playlist with Spotify', select_spotify_playlists_path, class: 'btn btn-success'
+  %table.table.table-striped
+    %thead
       %tr
-        %td= link_to playlist.name, playlist_songs_path(playlist)
-        %td= playlist.songs.count
-        %td= localize(playlist.created_at, :format => :short)
-        %td
-          %i.icon-remove= link_to 'Delete', playlist, :method => :delete, :data => { :confirm => 'Are you sure?' },
-          :class => 'btn btn-danger pull-right'
+        %th Name
+        %th Number of Songs
+        %th Created At
+        %th
 
-        -#%td= link_to 'Edit', edit_playlist_path(playlist)
-
-      %br
-
-= link_to 'New Playlist', new_playlist_path, class: 'btn btn-success'
-= link_to 'Sync Playlist with Spotify', select_spotify_playlists_path, class: 'btn btn-success'
+    %tbody
+      - @playlists.each do |playlist|
+        %tr
+          %td= link_to playlist.name, playlist_songs_path(playlist)
+          %td= playlist.songs.count
+          %td= localize(playlist.created_at, :format => :short)
+          %td
+            %ul.list-inline
+              %li
+                =link_to edit_playlist_url(playlist), alt:'Edit',  title: 'Edit this material' do
+                  %i.glyphicon.glyphicon-edit
+              %li
+                =link_to playlist, :method => :delete, :data => { :confirm => 'Are you sure?' } do
+                  %i.glyphicon.glyphicon-remove-sign
