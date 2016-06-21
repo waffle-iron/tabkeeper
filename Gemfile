@@ -53,6 +53,7 @@ gem 'google-api-client', '>0.7'
 
 gem 'redis', '~>3.2'
 gem 'redis-namespace'
+gem 'will_paginate', '~> 3.1.0'
 
 #
 # # for recording and storing

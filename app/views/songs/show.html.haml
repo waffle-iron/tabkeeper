@@ -20,9 +20,6 @@
         %div.btn-group.btn-group-sm{:role => "group"}
           %button.btn.btn-success
             = link_to 'Add Material', new_song_material_path(@song), class: 'btn-success'
-            = form_for @song do |f|
-              = f.hidden_field :name
-              = button_tag 'Auto fetch materials', title: 'Add to your materials', class:'btn btn-success'
 
       %ul.nav.nav-tabs
         %li.active

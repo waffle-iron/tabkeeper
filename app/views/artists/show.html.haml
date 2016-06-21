@@ -13,7 +13,6 @@
       %tr
         %td= link_to "#{song.name}", song_path(song, protocol: 'http')
         %td= song.materials.count
-      %br
 
 = link_to 'New Song', new_song_path(@artist)
 

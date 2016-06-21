@@ -79,13 +79,13 @@ class Song < ActiveRecord::Base
     self
         .joins(:user_song_views)
         .where("user_song_views.user_id = #{user.id}")
-        .order('user_song_views.updated_at DESC LIMIT 50')
+        .order('user_song_views.updated_at DESC')
   end
 
   def self.most_played(user)
     self.joins(:user_song_views)
         .where("user_song_views.user_id = #{user.id}")
-        .order('user_song_views.view_cnt DESC LIMIT 50')
+        .order('user_song_views.view_cnt DESC')
   end
 
 

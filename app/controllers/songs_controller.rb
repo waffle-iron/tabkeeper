@@ -6,25 +6,28 @@ class SongsController < ApplicationController
   # GET /songs.json
   def index
     unless @playlist.nil?
-      @songs = @playlist.songs.order(:name) unless @playlist.nil?
+      @songs = @playlist.songs.order(:name).paginate(:page => params[:page]) unless @playlist.nil?
       @title = @playlist.name unless @playlist.nil?
       return
     end
 
     unless params[:q].nil?
-      @songs = Song.search(params[:q])
+      @songs = Song.search(params[:q]).paginate(:page => params[:page])
       @title = "Results for #{params[:q]}"
       return
     end
 
-    @songs = Song.all
+    @songs = Song.paginate(:page => params[:page])
+
     @title = 'All available songs'
   end
+
+
 
   # GET /songs/recent
   # GET /songs/recent.json
   def recent
-    @songs = Song.recent_songs(current_user)
+    @songs = Song.recent_songs(current_user).paginate(:page => params[:page])
     @title = 'Recently played songs'
     render :index
   end
@@ -32,7 +35,7 @@ class SongsController < ApplicationController
   # GET /songs/most_played
   # GET /songs/most_played.json
   def most_played
-    @songs = Song.most_played(current_user)
+    @songs = Song.most_played(current_user).paginate(:page => params[:page])
     @title = 'Most played songs'
 
     render :index
@@ -58,7 +61,6 @@ class SongsController < ApplicationController
       query = "#{@song.name} #{@song.artist.name}"
       @google_search_results = engine.fetch_tabs_and_chords query
       @youtube_search_results = engine.fetch_youtube_results query
-      abc = 'e'
     rescue Google::Apis::ClientError => error
       puts error.message
     end
