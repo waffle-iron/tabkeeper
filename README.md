@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/gelaru/tabkeeper.png?label=ready&title=Ready)](https://waffle.io/gelaru/tabkeeper)
 # playme
 Backend for guitar song suggestion app
 
